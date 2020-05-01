@@ -74,13 +74,23 @@ public class Tracker {
      * @return - возвращает объект с id, или null, если совпадений нет.
      */
     public Item findById (String id) {
-        Item found = null;
+        int index = indexOf(id);
+        return index != -1 ? items[index] : null;
+    }
+
+    public void replace(String id, Item item) {
+        int cell = indexOf(id);
+        items[cell].setName(item.getName());
+    }
+
+    private int indexOf(String id) {
+        int result = -1;
         for (int index = 0; index < position; index++) {
             if (items[index].getId().equals(id)) {
-                found = items[index];
+                result = index;
                 break;
             }
         }
-        return found;
+        return result;
     }
 }
