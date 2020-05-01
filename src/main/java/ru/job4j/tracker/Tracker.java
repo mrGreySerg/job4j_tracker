@@ -93,4 +93,15 @@ public class Tracker {
         }
         return result;
     }
+
+    /**
+     * Метод удаляет позицию по id.
+     * @param id - id удаляемого объекта.
+     */
+    public void delete(String id) {
+        int cell = indexOf(id);
+        System.arraycopy(items, cell + 1, items, cell, position - cell);
+        items[position - 1] = null;
+        position--;
+    }
 }
