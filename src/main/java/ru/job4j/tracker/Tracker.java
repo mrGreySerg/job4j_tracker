@@ -38,16 +38,7 @@ public class Tracker {
      * @return массив объектов.
      */
     public Item[] findAll() {
-        Item[] temp = new Item[items.length];
-        int size = 0;
-        for (int index = 0; index < position; index++) {
-            if (items[index] != null) {
-                temp[size] = items[index];
-                size++;
-            }
-        }
-        temp = Arrays.copyOf(temp, size);
-        return temp;
+        return Arrays.copyOf(items, position);
     }
 
     /**
