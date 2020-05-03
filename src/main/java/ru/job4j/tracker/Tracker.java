@@ -69,9 +69,21 @@ public class Tracker {
         return index != -1 ? items[index] : null;
     }
 
-    public void replace(String id, Item item) {
+    /**
+     * Метод заменяет заявку с сохранением id.
+     * 1. Находим индекс заменяемой ячейки по id.
+     * 2. Id со старой заявой назначаем нашей новой заявке.
+     * Т.к. при замене нужно сохранять старый id.
+     * 3. Записываем в ячейку с найденным индексом объект item.
+     * @param id - id заявки под замену.
+     * @param item - новая заявка.
+     * @return true.
+     */
+    public boolean replace(String id, Item item) {
         int cell = indexOf(id);
-        items[cell].setName(item.getName());
+        item.setId(id);
+        items[cell] = item;
+        return true;
     }
 
     private int indexOf(String id) {
