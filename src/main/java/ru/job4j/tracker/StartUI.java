@@ -30,8 +30,7 @@ public class StartUI {
                     System.out.println("=== List of items ===");
                     Item[] items = tracker.findAll();
                     for (Item x : items) {
-                        System.out.print("Имя позиции: " + x.getName() + "; ");
-                        System.out.println("id: " + x.getId() + ".");
+                        System.out.println(x);
                     }
                     break;
                 case 2:
@@ -42,9 +41,9 @@ public class StartUI {
                     String nameNewItem = scanner.nextLine();
                     Item newItem = new Item(nameNewItem);
                     if (tracker.replace(id, newItem)) {
-                    System.out.println("Done!!!");
+                        System.out.println("Done!!!");
                     } else {
-                    System.out.println("Wrong operation!!!");
+                        System.out.println("Wrong operation!!!");
                     }
                     break;
                 case 3:
@@ -62,17 +61,23 @@ public class StartUI {
                     System.out.print("Enter id: ");
                     id = scanner.nextLine();
                     Item byId = tracker.findById(id);
-                    System.out.print("Имя позиции: " + byId.getName() + "; ");
-                    System.out.println("id :" + byId.getId() + ".");
+                    if (byId != null) {
+                        System.out.println(byId);
+                    } else {
+                        System.out.println("There is no such id. Wrong operation!!!");
+                    }
                     break;
                 case 5:
                     System.out.println("=== Finding item by name ===");
                     System.out.print("Enter the name of item: ");
                     name = scanner.nextLine();
                     Item[] itemsByName = tracker.findByName(name);
-                    for (Item x : itemsByName) {
-                        System.out.print("Имя позиции: " + x.getName() + "; ");
-                        System.out.println("id :" + x.getId() + ".");
+                    if (itemsByName.length != 0) {
+                        for (Item x : itemsByName) {
+                            System.out.println(x);
+                        }
+                    } else {
+                        System.out.println("There is no such name. Wrong operation!!!");
                     }
                     break;
                 case 6:
@@ -90,7 +95,7 @@ public class StartUI {
      * Печатает меню выбора.
      */
     private void showMenu() {
-        System.out.println("\nMenu.");
+        System.out.println(System.lineSeparator() + "Menu.");
         System.out.println("0. Add new item");
         System.out.println("1. Show all items");
         System.out.println("2. Edit item");
