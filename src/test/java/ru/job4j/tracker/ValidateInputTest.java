@@ -29,7 +29,7 @@ public class ValidateInputTest {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream out = System.out;
         System.setOut(new PrintStream(output));
-        String[] data = {"9"};
+        String[] data = {"9", "1"};
         ValidateInput input = new ValidateStubInput(data);
         input.askInt("Enter", 6);
         assertThat(
