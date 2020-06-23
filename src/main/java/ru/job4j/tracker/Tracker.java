@@ -1,17 +1,14 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tracker {
     /**
-     * Массив для хранения заявок.
+     * ArrayList для хранения заявок.
      */
-    private Item[] items = new Item[100];
-    /**
-     * Указатель ячейки для новой заявки.
-     */
-    private int position = 0;
+    private List<Item> items = new ArrayList<Item>();
 
     /**
      * Метод добавления заявки в хранилище.
@@ -20,7 +17,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(generateId());
-        items[position++] = item;
+        items.add(item);
         return item;
     }
 
@@ -34,29 +31,26 @@ public class Tracker {
     }
 
     /**
-     * Метод выводит все существующие объекты (!= null) из массива items.
-     * @return массив объектов.
+     * Метод выводит все существующие объекты.
+     * @return - список items.
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        return items;
     }
 
     /**
-     * Метод выводит массив элементов, чьи имена совпадают с назначенным в качестве аргумента.
+     * Метод выводит список элементов, чьи имена совпадают с назначенным в качестве аргумента.
      * @param key - имя для поиска.
-     * @return - массив элементов с совпадающим именем.
+     * @return - список элементов с совпадающим именем.
      */
-    public Item[] findByName(String key) {
-        Item[] temp = new Item[items.length];
-        int size = 0;
-        for (int index = 0; index < position; index++) {
-            if (items[index].getName().equals(key)) {
-                temp[size] = items[index];
-                size++;
+    public List<Item> findByName(String key) {
+        List<Item> itemList = new ArrayList<Item>();
+        for (Item item : items) {
+            if (item.getName().equals(key)) {
+                itemList.add(item);
             }
         }
-        temp = Arrays.copyOf(temp, size);
-        return temp;
+        return itemList;
     }
 
     /**
@@ -66,7 +60,7 @@ public class Tracker {
      */
     public Item findById (String id) {
         int index = indexOf(id);
-        return index != -1 ? items[index] : null;
+        return index != -1 ? items.get(index) : null;
     }
 
     /**
@@ -74,7 +68,8 @@ public class Tracker {
      * 1. Находим индекс заменяемой ячейки по id.
      * 2. Id со старой заявой назначаем нашей новой заявке.
      * Т.к. при замене нужно сохранять старый id.
-     * 3. Записываем в ячейку с найденным индексом объект item.
+     * 3. Удаляем из списка items старую заявку item.
+     * 4. Записываем в ячейку с найденным индексом объект item.
      * @param id - id заявки под замену.
      * @param item - новая заявка.
      * @return true.
@@ -84,16 +79,17 @@ public class Tracker {
         boolean result = cell != -1;
         if (result) {
             item.setId(id);
-            items[cell] = item;
+            items.remove(cell);
+            items.add(cell, item);
         }
         return result;
     }
 
     private int indexOf(String id) {
         int result = -1;
-        for (int index = 0; index < position; index++) {
-            if (items[index].getId().equals(id)) {
-                result = index;
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                result = items.indexOf(item);
                 break;
             }
         }
@@ -108,9 +104,7 @@ public class Tracker {
         int cell = indexOf(id);
         boolean result = cell != -1;
         if (result) {
-            System.arraycopy(items, cell + 1, items, cell, position - cell);
-            items[position - 1] = null;
-            position--;
+            items.remove(cell);
         }
         return result;
     }
