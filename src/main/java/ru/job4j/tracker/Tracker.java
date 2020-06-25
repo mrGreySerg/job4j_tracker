@@ -79,8 +79,7 @@ public class Tracker {
         boolean result = cell != -1;
         if (result) {
             item.setId(id);
-            items.remove(cell);
-            items.add(cell, item);
+            items.set(cell, item);
         }
         return result;
     }
