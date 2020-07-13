@@ -33,8 +33,8 @@ public class BankService {
      * @param account - новый счет.
      */
     public void addAccount(String passport, Account account) {
-        if (this.findByPassport(passport) != null) {
-            User user = this.findByPassport(passport);
+        User user = this.findByPassport(passport);
+        if (user != null) {
             List<Account> userAccounts = users.get(user);
             if (!userAccounts.contains(account)) {
                 userAccounts.add(account);
@@ -91,69 +91,15 @@ public class BankService {
                                  String destRequisite,
                                  double amount) {
         boolean checkOperation = false;
-        if (checkTransfer(srcPassport, srcRequisite,
-                destPassport, destRequisite, amount)) {
-            this.offBalance(srcPassport, srcRequisite, amount);
-            this.refillAccount(destPassport, destRequisite, amount);
+        Account srcAccount = this.findByRequisite(srcPassport, srcRequisite);
+        Account destAccount = this.findByRequisite(destPassport, destRequisite);
+        if (srcAccount != null || destAccount != null
+                || srcAccount.getBalance() > amount) {
+            srcAccount.setBalance(srcAccount.getBalance() - amount);
+            destAccount.setBalance(destAccount.getBalance() + amount);
             checkOperation = true;
         }
         return checkOperation;
-    }
-
-    /**
-     * Списывает со счета клиента деньги.
-     * @param srcPassport - данные паспорта клиента.
-     * @param srcRequisite - реквизиты счета.
-     * @param amount - сумма списания.
-     */
-    private void offBalance(String srcPassport,
-                            String srcRequisite,
-                            double amount) {
-        User srcUser = this.findByPassport(srcPassport);
-        List<Account> accountsSrcUser = users.get(srcUser);
-        Account srcAccount = this.findByRequisite(srcPassport, srcRequisite);
-        int indexSrcAccount = accountsSrcUser.indexOf(srcAccount);
-        srcAccount.setBalance(srcAccount.getBalance() - amount);
-        accountsSrcUser.set(indexSrcAccount, srcAccount);
-        users.put(srcUser, accountsSrcUser);
-    }
-
-    /**
-     * Пополняет счет клиента.
-     * @param destPassport - номер паспорта клиента.
-     * @param destRequisite - реквизиты счета.
-     * @param amount - сумма поступления.
-     */
-    private void refillAccount(String destPassport,
-                               String destRequisite,
-                               double amount) {
-        User destUser = this.findByPassport(destPassport);
-        List<Account> accountsDestUser = users.get(destUser);
-        Account destAccount = this.findByRequisite(destPassport, destRequisite);
-        int indexDestAccount = accountsDestUser.indexOf(destAccount);
-        destAccount.setBalance(destAccount.getBalance() + amount);
-        accountsDestUser.set(indexDestAccount, destAccount);
-        users.put(destUser, accountsDestUser);
-    }
-
-    /**
-     * Проверяет возможность выполнения операции перевода со счета на счет.
-     * @param srcPassport - номер паспорта отправителя.
-     * @param srcRequisite - реквизиты счета отправителя.
-     * @param destPassport - номер паспорта получателя.
-     * @param destRequisite - реквизиты счета получателя.
-     * @param amount - сумма перевода.
-     * @return - результат проверки (можно или нет).
-     */
-    private boolean checkTransfer(String srcPassport,
-                                  String srcRequisite,
-                                  String destPassport,
-                                  String destRequisite,
-                                  double amount) {
-        return this.findByRequisite(srcPassport, srcRequisite).getBalance() < amount
-                || this.findByRequisite(srcPassport, srcRequisite) == null
-                || this.findByRequisite(destPassport, destRequisite) == null
-                ? false : true;
     }
 
 }
