@@ -93,8 +93,8 @@ public class BankService {
         boolean checkOperation = false;
         Account srcAccount = this.findByRequisite(srcPassport, srcRequisite);
         Account destAccount = this.findByRequisite(destPassport, destRequisite);
-        if (srcAccount != null || destAccount != null
-                || srcAccount.getBalance() > amount) {
+        if (srcAccount != null && destAccount != null
+                && srcAccount.getBalance() >= amount) {
             srcAccount.setBalance(srcAccount.getBalance() - amount);
             destAccount.setBalance(destAccount.getBalance() + amount);
             checkOperation = true;
