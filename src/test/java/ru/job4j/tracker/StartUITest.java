@@ -66,7 +66,7 @@ public class StartUITest {
         StubAction action = new StubAction();
         new StartUI().init(input, new Tracker(), List.of(action));
         String expect = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
-                .add(System.lineSeparator() +"Menu.")
+                .add(System.lineSeparator() + "Menu.")
                 .add("0. Stub action")
                 .toString();
         assertThat(new String(out.toByteArray()), is(expect));

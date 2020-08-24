@@ -42,8 +42,8 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return Objects.equals(this.number, order.number) &&
-                Objects.equals(this.name, order.name);
+        return Objects.equals(this.number, order.number)
+                && Objects.equals(this.name, order.name);
     }
 
     @Override

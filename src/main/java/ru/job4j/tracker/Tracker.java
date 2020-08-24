@@ -58,7 +58,7 @@ public class Tracker {
      * @param id - уникальный id.
      * @return - возвращает объект с id, или null, если совпадений нет.
      */
-    public Item findById (String id) {
+    public Item findById(String id) {
         int index = indexOf(id);
         return index != -1 ? items.get(index) : null;
     }

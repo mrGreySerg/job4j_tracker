@@ -20,7 +20,7 @@ public class StringCompareTest {
     }
 
     @Test
-    public void whenLeftLessThanRightResultShouldBeNegative () {
+    public void whenLeftLessThanRightResultShouldBeNegative() {
         StringCompare stringCompare = new StringCompare();
         String first = "Ivanov";
         String second = "Ivanova";

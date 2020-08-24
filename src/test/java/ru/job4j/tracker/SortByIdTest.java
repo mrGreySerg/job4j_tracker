@@ -39,6 +39,4 @@ public class SortByIdTest {
         assertThat(items, is(expected));
     }
 
-
-
 }
