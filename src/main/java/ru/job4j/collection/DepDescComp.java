@@ -6,9 +6,11 @@ public class DepDescComp implements Comparator<String> {
 
     @Override
     public int compare(String first, String second) {
-        if (first.substring(0, 2).equals(second.substring(0, 2))) {
-            return first.substring(2).compareTo(second.substring(2));
+        int result = second.substring(0, 2).compareTo(first.substring(0, 2));
+        if (result == 0) {
+            return first.compareTo(second);
         }
-        return second.compareTo(first);
+        return result;
     }
+
 }
