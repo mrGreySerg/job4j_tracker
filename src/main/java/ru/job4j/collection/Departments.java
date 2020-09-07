@@ -1,14 +1,11 @@
 package ru.job4j.collection;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Departments {
 
     public static List<String> fillGaps(List<String> deps) {
-        HashSet<String> tmp = new HashSet<>();
+        Set<String> tmp = new TreeSet<>();
         for (String value : deps) {
             String start = "";
             for (String el : value.split("/")) {
@@ -16,9 +13,7 @@ public class Departments {
                 start += el + "/";
             }
         }
-        List<String> newList = new ArrayList<>(tmp);
-        Departments.sortAsc(newList);
-        return newList;
+        return new ArrayList<>(tmp);
     }
 
     public static void sortAsc(List<String> orgs) {
