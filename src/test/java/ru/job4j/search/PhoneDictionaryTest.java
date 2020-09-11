@@ -19,4 +19,12 @@ public class PhoneDictionaryTest {
         assertThat(result.get(0).getSurname(), is(expected));
     }
 
+    @Test
+    public void whenFindByName() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(new Person("Petr", "Arsentev", "534872", "Bryansk"));
+        ArrayList<Person> persons = phones.findAnother("Petr");
+        assertThat(persons.get(0).getSurname(), is("Arsentev"));
+    }
+
 }
