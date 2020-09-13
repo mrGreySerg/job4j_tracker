@@ -33,15 +33,14 @@ public class PhoneDictionary {
     }
 
     public ArrayList<Person> findAnother(String key) {
-        Predicate<Person> combine = x -> {
-            if (x.getName().contains(key)
-                    || x.getSurname().contains(key)
-                    || x.getAddress().contains(key)
-                    || x.getPhone().contains(key)) {
-                return true;
-            }
-            return false;
-        };
+        Predicate<Person> filterByName = x -> x.getName().contains(key);
+        Predicate<Person> filterBySurname = x -> x.getSurname().contains(key);
+        Predicate<Person> filterByAddress = x -> x.getAddress().contains(key);
+        Predicate<Person> filterByPhone  = x -> x.getPhone().contains(key);
+        Predicate<Person> combine = filterByName.
+                or(filterBySurname.
+                        or(filterByPhone.
+                                or(filterByAddress)));
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : this.persons) {
             if (combine.test(person)) {
