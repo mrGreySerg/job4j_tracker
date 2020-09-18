@@ -22,7 +22,8 @@ public class SchoolTest {
                 new Student(70, "Anton"),
                 new Student(90, "Artem")
         );
-        List<Student> result = School.toClass10A(students);
+        School newSchool = new School();
+        List<Student> result = newSchool.collect(students, x -> x.getScore() >= 70);
         assertThat(result, is(expected));
     }
 
@@ -39,7 +40,11 @@ public class SchoolTest {
                 new Student(65, "Sergei"),
                 new Student(55, "Jon")
         );
-        List<Student> result = School.toClass10B(students);
+        School newSchool = new School();
+        List<Student> result = newSchool.collect(students,
+                x -> x.getScore() >= 50
+                && x.getScore() < 70
+        );
         assertThat(result, is(expected));
     }
 
@@ -55,7 +60,10 @@ public class SchoolTest {
         List<Student> expected = List.of(
                 new Student(20, "Kirill")
         );
-        List<Student> result = School.toClass10C(students);
+        School newSchool = new School();
+        List<Student> result = newSchool.collect(students,
+                x -> x.getScore() < 50
+        );
         assertThat(result, is(expected));
     }
 
