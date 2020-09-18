@@ -11,4 +11,12 @@ public class Profiles {
                 .collect(Collectors.toList());
     }
 
+    public List<Address> collectDifferentCity(List<Profile> profiles) {
+        List<Address> listAddress = collect(profiles);
+        return listAddress.stream()
+                .sorted((o1, o2) -> o1.getCity().compareTo(o2.getCity()))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }
