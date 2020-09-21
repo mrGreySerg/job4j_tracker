@@ -2,7 +2,9 @@ package ru.job4j.stream;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
@@ -64,6 +66,22 @@ public class SchoolTest {
         List<Student> result = newSchool.collect(students,
                 x -> x.getScore() < 50
         );
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void whenCheckMapForStudent() {
+        List<Student> students = List.of(
+                new Student(70, "Ivanov"),
+                new Student(20, "Petrov"),
+                new Student(65, "Stallone")
+        );
+        Map<String, Student> expected = new HashMap<>();
+        expected.put("Ivanov", new Student(70, "Ivanov"));
+        expected.put("Petrov", new Student(20, "Petrov"));
+        expected.put("Stallone", new Student(65, "Stallone"));
+        School newSchool = new School();
+        Map<String, Student> result = newSchool.mapForStudent(students);
         assertThat(result, is(expected));
     }
 
