@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Класс управляет счетами клиентов.
@@ -48,7 +49,7 @@ public class BankService {
      * @param passport - номер паспорта.
      * @return - найденного клиента банка.
      */
-    public User findByPassport(String passport) {
+    public User oldFindByPassport(String passport) {
         for (User user : users.keySet()) {
             if (user.getPassport().equals(passport)) {
                 return user;
@@ -57,13 +58,20 @@ public class BankService {
         return null;
     }
 
+    public User findByPassport(String passport) {
+        return users.keySet().stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst()
+                .orElse(null);
+    }
+
     /**
      * Находит счет (Account) по паспорту клиента и реквизитам счета.
      * @param passport - номер паспорта.
      * @param requisite - реквизиты счета.
      * @return - счет (Account).
      */
-    public Account findByRequisite(String passport, String requisite) {
+    public Account oldFindByRequisite(String passport, String requisite) {
         User user = this.findByPassport(passport);
         if (user != null) {
             List<Account> userAccounts = users.get(user);
@@ -72,6 +80,17 @@ public class BankService {
                     return account;
                 }
             }
+        }
+        return null;
+    }
+
+    public Account findByRequisite(String passport, String requisite) {
+        User user = this.findByPassport(passport);
+        if (user != null) {
+            List<Account> listAccount = users.get(user).stream()
+                    .filter(account -> account.getRequisite().equals(requisite))
+                    .collect(Collectors.toList());
+            return listAccount.get(0);
         }
         return null;
     }
