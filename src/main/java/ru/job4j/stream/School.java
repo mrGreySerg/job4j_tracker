@@ -14,10 +14,15 @@ public class School {
     }
 
     public Map<String, Student> mapForStudent(List<Student> listOfStudents) {
-        return listOfStudents.stream().collect(Collectors.toMap(
-                student -> student.getSurname(),
-                student -> student
-        ));
+        return listOfStudents.stream()
+                .collect(Collectors.toMap(
+                        student -> student.getSurname(),
+                        student -> student,
+                        (studentOne, studentTwo) -> {
+                            System.out.println("duplicate key is found");
+                            return studentOne;
+                        }
+                ));
     }
 
 }

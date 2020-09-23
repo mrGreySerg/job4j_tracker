@@ -85,4 +85,21 @@ public class SchoolTest {
         assertThat(result, is(expected));
     }
 
+    @Test
+    public void whenHaveDuplicate() {
+        List<Student> students = List.of(
+                new Student(70, "Ivanov"),
+                new Student(20, "Petrov"),
+                new Student(65, "Stallone"),
+                new Student(65, "Stallone")
+        );
+        Map<String, Student> expected = new HashMap<>();
+        expected.put("Ivanov", new Student(70, "Ivanov"));
+        expected.put("Petrov", new Student(20, "Petrov"));
+        expected.put("Stallone", new Student(65, "Stallone"));
+        School newSchool = new School();
+        Map<String, Student> result = newSchool.mapForStudent(students);
+        assertThat(result, is(expected));
+    }
+
 }
