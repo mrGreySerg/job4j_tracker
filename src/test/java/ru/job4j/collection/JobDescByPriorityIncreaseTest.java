@@ -19,7 +19,7 @@ public class JobDescByPriorityIncreaseTest {
         Job write = new Job("write", 3);
         List<Job> jobs = Arrays.asList(write, read, fix);
         Collections.sort(jobs, new JobDescByNameIncrease());
-        List<Job> expected = Arrays.asList(fix, read, write);
+        List<Job> expected = List.of(fix, read, write);
         assertThat(jobs, is(expected));
     }
 
@@ -33,7 +33,7 @@ public class JobDescByPriorityIncreaseTest {
         Comparator<Job> multi = new JobDescByPriorityIncrease()
                 .thenComparing(new JobDescByNameIncrease());
         Collections.sort(jobs, multi);
-        List<Job> expected = Arrays.asList(fix1, fix2, fix3, read);
+        List<Job> expected = List.of(fix1, fix2, fix3, read);
         assertThat(jobs, is(expected));
     }
 

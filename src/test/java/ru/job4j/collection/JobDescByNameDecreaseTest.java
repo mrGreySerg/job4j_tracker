@@ -18,7 +18,7 @@ public class JobDescByNameDecreaseTest {
         Job read = new Job("read", 2);
         Job write = new Job("write", 3);
         List<Job> jobs = Arrays.asList(write, fix, read);
-        List<Job> expected = Arrays.asList(write, read, fix);
+        List<Job> expected = List.of(write, read, fix);
         Collections.sort(jobs, new JobDescByNameDecrease());
         assertThat(jobs, is(expected));
     }
@@ -33,7 +33,7 @@ public class JobDescByNameDecreaseTest {
         Comparator<Job> multi = new JobDescByNameDecrease()
                 .thenComparing(new JobDescByPriorityDecrease());
         Collections.sort(jobs, multi);
-        List<Job> expected = Arrays.asList(read, fix3, fix2, fix1);
+        List<Job> expected = List.of(read, fix3, fix2, fix1);
         assertThat(jobs, is(expected));
     }
 
