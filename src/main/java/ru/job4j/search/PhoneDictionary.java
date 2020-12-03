@@ -12,7 +12,7 @@ public class PhoneDictionary {
     }
 
     private boolean isExist(String key, Person person) {
-        boolean result = false;
+        var result = false;
         if (person.getName().contains(key)
                 || person.getSurname().contains(key)
                 || person.getPhone().contains(key)
@@ -24,7 +24,7 @@ public class PhoneDictionary {
 
     public ArrayList<Person> find(String key) {
         ArrayList<Person> result = new ArrayList<Person>();
-        for (Person person : this.persons) {
+        for (var person : this.persons) {
             if (isExist(key, person)) {
                 result.add(person);
             }
@@ -42,7 +42,7 @@ public class PhoneDictionary {
                         or(filterByPhone.
                                 or(filterByAddress)));
         ArrayList<Person> result = new ArrayList<>();
-        for (Person person : this.persons) {
+        for (var person : this.persons) {
             if (combine.test(person)) {
                 result.add(person);
             }
