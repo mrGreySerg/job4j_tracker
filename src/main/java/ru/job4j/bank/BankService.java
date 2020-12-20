@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 /**
  * Класс управляет счетами клиентов.
@@ -34,8 +35,8 @@ public class BankService {
      * @param account - новый счет.
      */
     public void addAccount(String passport, Account account) {
-        User user = this.findByPassport(passport);
-        if (user != null) {
+        Optional<User> user = this.findByPassport(passport);
+        if (user.isPresent()) {
             List<Account> userAccounts = users.get(user);
             if (!userAccounts.contains(account)) {
                 userAccounts.add(account);
@@ -49,20 +50,10 @@ public class BankService {
      * @param passport - номер паспорта.
      * @return - найденного клиента банка.
      */
-    public User oldFindByPassport(String passport) {
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public User findByPassport(String passport) {
+    public Optional<User> findByPassport(String passport) {
         return users.keySet().stream()
                 .filter(user -> user.getPassport().equals(passport))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     /**
@@ -71,19 +62,6 @@ public class BankService {
      * @param requisite - реквизиты счета.
      * @return - счет (Account).
      */
-    public Account oldFindByRequisite(String passport, String requisite) {
-        User user = this.findByPassport(passport);
-        if (user != null) {
-            List<Account> userAccounts = users.get(user);
-            for (Account account : userAccounts) {
-                if (account.getRequisite().equals(requisite)) {
-                    return account;
-                }
-            }
-        }
-        return null;
-    }
-
     public Account findByRequisite(String passport, String requisite) {
         User user = this.findByPassport(passport);
         if (user != null) {
