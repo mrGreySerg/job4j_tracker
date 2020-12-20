@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 /**
  * Класс управляет счетами клиентов.
  * @author Kustrin Sergei.
@@ -37,10 +36,10 @@ public class BankService {
     public void addAccount(String passport, Account account) {
         Optional<User> user = this.findByPassport(passport);
         if (user.isPresent()) {
-            List<Account> userAccounts = users.get(user);
+            List<Account> userAccounts = users.get(user.get());
             if (!userAccounts.contains(account)) {
                 userAccounts.add(account);
-                users.put(user, userAccounts);
+                users.put(user.get(), userAccounts);
             }
         }
     }
@@ -62,15 +61,14 @@ public class BankService {
      * @param requisite - реквизиты счета.
      * @return - счет (Account).
      */
-    public Account findByRequisite(String passport, String requisite) {
-        User user = this.findByPassport(passport);
-        if (user != null) {
-            return users.get(user).stream()
+    public Optional<Account> findByRequisite(String passport, String requisite) {
+        Optional<User> user = this.findByPassport(passport);
+        if (user.isPresent()) {
+            return users.get(user.get()).stream()
                     .filter(account -> account.getRequisite().equals(requisite))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst();
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -88,8 +86,8 @@ public class BankService {
                                  String destRequisite,
                                  double amount) {
         boolean checkOperation = false;
-        Account srcAccount = this.findByRequisite(srcPassport, srcRequisite);
-        Account destAccount = this.findByRequisite(destPassport, destRequisite);
+        Account srcAccount = this.findByRequisite(srcPassport, srcRequisite).get();
+        Account destAccount = this.findByRequisite(destPassport, destRequisite).get();
         if (srcAccount != null && destAccount != null
                 && srcAccount.getBalance() >= amount) {
             srcAccount.setBalance(srcAccount.getBalance() - amount);
